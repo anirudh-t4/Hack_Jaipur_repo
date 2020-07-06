@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maps/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:maps/services/authservice.dart';
+import 'package:maps/services/sign_in.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -20,8 +21,43 @@ Widget getImageAsset(){
 }
   @override
   Widget build(BuildContext context) {
-
-
+    Widget _signInButton() {
+      return OutlineButton(
+        splashColor: Colors.grey,
+        onPressed: () {
+          signInWithGoogle().whenComplete(() {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(),
+              ),
+            );
+          });
+        },
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+        highlightElevation: 0,
+        borderSide: BorderSide(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(image: AssetImage('assets/google.jpg',),height: 30,width: 30,),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  'Google',
+                  style: TextStyle(
+                      fontSize: 23,
+                      color: Colors.black,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       body: Form(
@@ -67,10 +103,19 @@ Widget getImageAsset(){
                       onPressed: () {
                         AuthService().savePhoneNumber(this.phoneNo);
                         codeSent ? AuthService().signInWithOTP(smsCode, verificationId):verifyPhone(phoneNo);
-                      }))
+                      })),
+            SizedBox(height: 20,),
+            Center(
+              child: Text('Or Sign In With',
+                style: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),),
+            ),
+            SizedBox(height: 20,),
+            _signInButton()
+
             ],
           )),
      ) );
+
   }
 
   Future<void> verifyPhone(phoneNo) async {
@@ -103,4 +148,6 @@ Widget getImageAsset(){
         codeAutoRetrievalTimeout: autoTimeout);
   }
 
+
 }
+

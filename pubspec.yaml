@@ -65,6 +65,7 @@ dependencies:
   upi_india: ^2.1.2
   simple_animations: ^2.2.1
   webview_flutter: ^0.3.22+1
+  google_sign_in: ^4.4.4
 
  
 

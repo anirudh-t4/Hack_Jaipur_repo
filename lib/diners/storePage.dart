@@ -128,6 +128,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:maps/chefs/manageStore.dart';
 import 'package:maps/diners/previousOrders.dart';
 import 'package:maps/models/about.dart';
+import 'package:maps/services/sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:maps/diners/dinerinfo.dart';
 import 'package:flutter/cupertino.dart';
@@ -389,6 +390,8 @@ _getAddress(location);
           onTap: () async{
              AuthService().signOut();
                           Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context)=> AuthService().handleAuth()));
+             signOutGoogle();
+
 
           },
         ),
